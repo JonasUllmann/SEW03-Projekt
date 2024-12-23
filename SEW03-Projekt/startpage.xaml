@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SEW03_Projekt.startpage">
+
+    <ContentPage x:Name="vsBot" Title="Play against a Bot">
+        <StackLayout>
+            <Label Text="Spiel gegen einen Bot" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Start" 
+                   Margin="0,0,0,200"
+                   FontSize="Large"/>
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+
+                <Entry x:Name="entplayername" Placeholder="name" HorizontalOptions="Center" WidthRequest="150" HeightRequest="35"/>
+
+                <Picker x:Name="DifficultyPicker"
+                        Title="Select Difficulty"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        SelectedIndex="0">   
+                        
+                    <!-- Easy ist Standardwert -->
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Easy</x:String>
+                            <x:String>Medium</x:String>
+                            <x:String>Hard</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+
+
+
+            </HorizontalStackLayout>
+            
+            <Button Text="Start Bot Game" 
+                    Clicked="btnbot_Clicked"
+                    HorizontalOptions="Center"
+                    
+                    />
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage x:Name="vsPlayer" Title="Play against a Player">
+        <StackLayout>
+            <Label Text="Spiel gegen einen Spieler" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Start" 
+                   Margin="0,0,0,200"
+                   FontSize="Large"/>
+
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+
+                <Entry x:Name="entplayer1name" Placeholder="Player1" HorizontalOptions="Center" WidthRequest="150" HeightRequest="35"/>
+                <Entry x:Name="entplayer2name" Placeholder="Player2" HorizontalOptions="Center" WidthRequest="150" HeightRequest="35"/>
+
+            </HorizontalStackLayout>
+            
+            <Button Text="Start Player Game" 
+                    Clicked="btnplayer_Clicked" 
+                    HorizontalOptions="Center"/>
+        </StackLayout>
+    </ContentPage>
+
+</TabbedPage>

@@ -7,7 +7,7 @@
         <VerticalStackLayout>
 
             <Button
-                Text="FIRE!" BackgroundColor="IndianRed" WidthRequest="1/100"
+                Text="FIRE!" BackgroundColor="IndianRed" WidthRequest="100"
             />
 
         </VerticalStackLayout>
