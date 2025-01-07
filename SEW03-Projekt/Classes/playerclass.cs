@@ -2,14 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SEW03_Projekt.Classes
 {
 
-    public class playerobject
+    public class Playerobject
     {
 
         private int health;
@@ -18,7 +17,7 @@ namespace SEW03_Projekt.Classes
         private int stamina;
         private List<int> ammocount;
 
-        public playerobject(string name, int health, int maxhealth) 
+        public Playerobject(string name, int health, int maxhealth) 
         { 
         
             this.name = name;
@@ -32,6 +31,8 @@ namespace SEW03_Projekt.Classes
         {
             ammocount[ammotype]--;
         }
+
+
 
 
     }

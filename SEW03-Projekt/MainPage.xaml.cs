@@ -7,10 +7,10 @@ namespace SEW03_Projekt
 
         string playername = "";
 
-        playerobject player1;
-        ammunition apple;
-        ammunition melon;
-        ammunition dung;
+        Playerobject player1;
+        Ammunition apple;
+        Ammunition melon;
+        Ammunition dung;
         
         public enum Ammo {apple, melon, dung};
 
@@ -18,10 +18,10 @@ namespace SEW03_Projekt
         {
             InitializeComponent();
 
-            player1 = new playerobject(playername, 100, 100);
-            apple = new ammunition("apple", 2, 10, 1);
-            melon = new ammunition("melon", 5, 30, 7);
-            dung = new ammunition("dung", 3, 20, 3);
+            player1 = new Playerobject(playername, 100, 100);
+            apple = new Ammunition("apple", 2, 10, 1);
+            melon = new Ammunition("melon", 5, 30, 7);
+            dung = new Ammunition("dung", 3, 20, 3);
 
 
             

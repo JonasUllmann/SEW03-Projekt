@@ -1,11 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SEW03_Projekt.MainPage">
+             x:Class="SEW03_Projekt.MainPage"
+             xmlns:drawable="clr-namespace:SEW03_Projekt.Drawables"
+             >
+
+    <ContentPage.Resources>
+        <drawable:Player1Drawable x:Key="playerdrawable"/>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout>
 
+
+
+            <GraphicsView Drawable="{StaticResource playerdrawable}" HeightRequest="800" WidthRequest="800">
+                
+                
+                
+            </GraphicsView>
+            
+            
             <Button
                 Text="FIRE!" BackgroundColor="IndianRed" WidthRequest="100"
             />

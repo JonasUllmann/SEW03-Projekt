@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SEW03_Projekt.Classes
 {
-    public class ammunition
+    public class Ammunition
     {
 
         public string name;
@@ -14,7 +14,7 @@ namespace SEW03_Projekt.Classes
         public int damage;
         public int weight;
 
-        public ammunition(string name, int radius, int damage, int weight)
+        public Ammunition(string name, int radius, int damage, int weight)
         {
             this.name = name;
             this.radius = radius;
