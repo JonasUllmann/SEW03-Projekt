@@ -10,7 +10,23 @@ public partial class startpage : TabbedPage
 	{
         
         InitializeComponent();
-	}
+
+        var window = Application.Current?.MainPage?.Window;
+        if (window != null)
+        {
+            // Momentane Größe
+            double currentWidth = window.Width;
+            double currentHeight = window.Height;
+
+            // Mindestgröße setzen
+            window.MinimumWidth = currentWidth;
+            window.MinimumHeight = currentHeight;
+
+            //maximumgröße
+            window.MaximumWidth = currentWidth;
+            window.MaximumHeight = currentHeight;
+        }
+        }
 
     public string Botdifficulty { get => botdifficulty; set => botdifficulty = value; }
 

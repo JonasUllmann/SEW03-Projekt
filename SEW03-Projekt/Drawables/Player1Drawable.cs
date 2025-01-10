@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui.Devices;
 
 namespace SEW03_Projekt.Drawables
 {
@@ -12,17 +13,31 @@ namespace SEW03_Projekt.Drawables
         private int playerxpos;
         private int playerypos;
 
-        new private PointF torsostart; 
-        new private PointF torsoend;
+        private double windowHeight;
+        private double windowWidth;
+
+        private PointF torsostart; 
+        private PointF torsoend;
 
 
         public int Playerxpos { get => playerxpos; set => playerxpos = value; }
         public int Playerypos { get => playerypos; set => playerypos = value; }
 
+
+
         public Player1Drawable()
         {
-            playerxpos = 300;
-            playerypos = 300;
+
+            var window = Application.Current?.MainPage?.Window;
+            if (window != null)
+            {
+               windowWidth = window.Width;
+               windowHeight = window.Height;
+            }
+
+                playerypos = ((int)windowHeight) / 2;
+
+            playerxpos = ((int)windowWidth / 5);
 
             torsostart = new PointF(playerxpos, playerypos - 50);
             torsoend = new PointF(playerxpos, playerypos - 100);
@@ -44,8 +59,8 @@ namespace SEW03_Projekt.Drawables
             canvas.StrokeColor = Colors.Red;
             canvas.StrokeSize = 3;
 
-            canvas.DrawLine((Playerxpos), (Playerypos + 50), (Playerxpos - 20), Playerypos); 
-            //canvas.DrawLine((Playerxpos - 20), Playerypos, (Playerxpos), (Playerypos + 50));
+            canvas.DrawLine((Playerxpos - 20), (Playerypos), (Playerxpos), Playerypos - 50); 
+            canvas.DrawLine((Playerxpos + 20), Playerypos, (Playerxpos), (Playerypos - 50));
             canvas.DrawLine(torsostart, torsoend);
         }
     }
