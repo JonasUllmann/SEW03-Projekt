@@ -1,31 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SEW03_Projekt.MainPage"
              xmlns:drawable="clr-namespace:SEW03_Projekt.Drawables"
+             BackgroundColor="White"
              >
 
-    <ContentPage.Resources>
+    <ContentPage.Resources> 
         <drawable:Player1Drawable x:Key="playerdrawable"/>
     </ContentPage.Resources>
 
-    <ScrollView>
-        <VerticalStackLayout>
+    <Grid RowDefinitions="4*, 1*" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <!-- Oberer Bereich: Canvas -->
+        <GraphicsView Grid.Row="0" 
+                      Drawable="{StaticResource playerdrawable}" 
+                      VerticalOptions="FillAndExpand" 
+                      HorizontalOptions="FillAndExpand" />
 
+        <!-- Unterer Bereich: Steuerungsleiste -->
+        <Border Grid.Row="1"
+                Stroke="Black" 
+                StrokeThickness="2" 
+                BackgroundColor="White"
+                Padding="10">
+            <Grid ColumnDefinitions="2*, 1*, 2*" RowDefinitions="*, Auto, *">
+                <HorizontalStackLayout Grid.Column="0" Grid.Row="1" HorizontalOptions="CenterAndExpand" Spacing="10">
+                    <Button Text="Button 1" BackgroundColor="SteelBlue" HorizontalOptions="Center" />
+                    <Button Text="Button 2" BackgroundColor="SteelBlue" HorizontalOptions="Center" />
+                </HorizontalStackLayout>
 
+                <Button Grid.Column="1" Grid.Row="1"
+                        Text="FIRE!" 
+                        BackgroundColor="IndianRed"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
 
-            <GraphicsView Drawable="{StaticResource playerdrawable}" HeightRequest="800" WidthRequest="800">
-                
-                
-                
-            </GraphicsView>
-            
-            
-            <Button
-                Text="FIRE!" BackgroundColor="IndianRed" WidthRequest="100"
-            />
-
-        </VerticalStackLayout>
-    </ScrollView>
-
+                <Grid Grid.Column="2" Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="*, *">
+                    <Label Text="Text 1" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label Grid.Column="1" Text="Text 2" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label Grid.Row="1" Text="Text 3" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label Grid.Column="1" Grid.Row="1" Text="Text 4" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
 </ContentPage>

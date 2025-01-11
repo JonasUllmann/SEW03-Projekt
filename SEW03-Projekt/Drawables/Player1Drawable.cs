@@ -13,9 +13,6 @@ namespace SEW03_Projekt.Drawables
         private int playerxpos;
         private int playerypos;
 
-        private double windowHeight;
-        private double windowWidth;
-
         private PointF torsostart; 
         private PointF torsoend;
 
@@ -28,16 +25,9 @@ namespace SEW03_Projekt.Drawables
         public Player1Drawable()
         {
 
-            var window = Application.Current?.MainPage?.Window;
-            if (window != null)
-            {
-               windowWidth = window.Width;
-               windowHeight = window.Height;
-            }
 
-                playerypos = ((int)windowHeight) / 2;
-
-            playerxpos = ((int)windowWidth / 5);
+            playerypos = 300;
+            playerxpos = 300;
 
             torsostart = new PointF(playerxpos, playerypos - 50);
             torsoend = new PointF(playerxpos, playerypos - 100);

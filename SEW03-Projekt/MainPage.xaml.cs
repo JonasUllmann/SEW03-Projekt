@@ -17,18 +17,18 @@ namespace SEW03_Projekt
         public MainPage()
         {
             InitializeComponent();
-
+/*
             player1 = new Playerobject(playername, 100, 100);
             apple = new Ammunition("apple", 2, 10, 1);
             melon = new Ammunition("melon", 5, 30, 7);
             dung = new Ammunition("dung", 3, 20, 3);
+*/
 
 
-            
 
         }
 
-        
+
 
 
 
