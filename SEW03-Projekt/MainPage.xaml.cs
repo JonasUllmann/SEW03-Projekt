@@ -8,6 +8,7 @@ namespace SEW03_Projekt
         string playername = "";
 
         Playerobject player1;
+        Playerobject player2;
         Ammunition apple;
         Ammunition melon;
         Ammunition dung;

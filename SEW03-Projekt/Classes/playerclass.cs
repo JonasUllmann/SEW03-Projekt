@@ -17,6 +17,13 @@ namespace SEW03_Projekt.Classes
         private int stamina;
         private List<int> ammocount;
 
+        private int playerxpos;
+        private int playerypos;
+
+
+        public int Playerxpos { get => playerxpos; set => playerxpos = value; }
+        public int Playerypos { get => playerypos; set => playerypos = value; }
+
         public Playerobject(string name, int health, int maxhealth) 
         { 
         
