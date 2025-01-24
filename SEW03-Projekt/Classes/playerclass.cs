@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace SEW03_Projekt.Classes
 {
 
@@ -17,19 +18,20 @@ namespace SEW03_Projekt.Classes
         private int stamina;
         private List<int> ammocount;
 
-        private int playerxpos;
-        private int playerypos;
+        private Point playerpos;
+        
 
 
-        public int Playerxpos { get => playerxpos; set => playerxpos = value; }
-        public int Playerypos { get => playerypos; set => playerypos = value; }
+        public Point Playerpos { get => playerpos; set => playerpos = value; }
 
-        public Playerobject(string name, int health, int maxhealth) 
+
+        public Playerobject(string name, int health, int maxhealth, Point playerpos) 
         { 
         
             this.name = name;
             this.health = health;
             this.maxhealth = maxhealth;
+            this.playerpos = playerpos;
             
         
         }

@@ -35,7 +35,7 @@
                         VerticalOptions="Center" />
 
                 <Grid Grid.Column="2" Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="*, *">
-                    <Label Text="Text 1" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label x:Name="Label1" Text="Text 1" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
                     <Label Grid.Column="1" Text="Text 2" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
                     <Label Grid.Row="1" Text="Text 3" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
                     <Label Grid.Column="1" Grid.Row="1" Text="Text 4" BackgroundColor="LightGray" HorizontalOptions="Center" VerticalOptions="Center" />
