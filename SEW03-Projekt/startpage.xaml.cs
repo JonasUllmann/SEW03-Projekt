@@ -15,8 +15,6 @@ namespace SEW03_Projekt
         public Playerobject Player1 { get => player1; set => player1 = value; }
         public Playerobject Player2 { get => player2; set => player2 = value; }
 
-        public float Player1X => (float)player1.Playerpos.X;
-        public float Player1Y => (float)player1.Playerpos.Y;
 
         public startpage()
         {

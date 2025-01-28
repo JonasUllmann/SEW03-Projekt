@@ -17,13 +17,15 @@ namespace SEW03_Projekt.Classes
         private string name;
         private int stamina;
         private List<int> ammocount;
-
+        private int angle;
+        private int power;
         private Point playerpos;
         
 
 
         public Point Playerpos { get => playerpos; set => playerpos = value; }
-
+        public int Angle { get => angle; set => angle = value; }
+        public int Power { get => power; set => power = value; }
 
         public Playerobject(string name, int health, int maxhealth, Point playerpos) 
         { 
@@ -32,6 +34,8 @@ namespace SEW03_Projekt.Classes
             this.health = health;
             this.maxhealth = maxhealth;
             this.playerpos = playerpos;
+            angle = 45;
+            power = 50;
             
         
         }
