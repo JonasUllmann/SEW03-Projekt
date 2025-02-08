@@ -21,13 +21,13 @@ namespace SEW03_Projekt
         {
             InitializeComponent();
 
-            // Instanziieren der startpage
-            var startPageInstance = new startpage();
 
-            // Korrekte Initialisierung von Player1Drawable mit dem startpage-Parameter
-            var player1Drawable = new Player1Drawable(startPageInstance);
+            startpage startPageInstance = new startpage();
 
-            // Zuweisung des Drawable zu canvasView
+
+            Player1Drawable player1Drawable = new Player1Drawable(startPageInstance);
+
+            
             canvasView.Drawable = player1Drawable;
 
 
@@ -101,7 +101,7 @@ namespace SEW03_Projekt
         {
 
 
-
+          
         }
     }
 

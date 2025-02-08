@@ -15,6 +15,7 @@ namespace SEW03_Projekt.Classes
         public int damage;
         public int weight; 
         public Point pos;
+        public string source;
 
         private const float g = 9.81f; 
 
@@ -23,24 +24,24 @@ namespace SEW03_Projekt.Classes
         }
 
         // Berechnet die x- und y-Position eines Projektils an einem gewissen Zeitpunkt
-        public PointF projectilepath(float t, int power, int angle, float windspeed) //windspeed positiv links nach rechts, negativ rechts nach links
+        public PointF projectilepath(float t, int power, int angle, float windspeed, bool shootingLeft, float startX, float startY)
         {
-            float v0 = power / (1 + (weight / 5f)); // Masse reduziert Reichweite
-            float radAngle = MathF.PI * angle / 180f; // Winkel in Radiant
+            float v0 = power / (1 + (weight / 5f));
+            float radAngle = MathF.PI * angle / 180f;
 
-            float vx = v0 * MathF.Cos(radAngle); // Anfangsgeschwindigkeit x-Richtung
-            float vy = v0 * MathF.Sin(radAngle); // Anfangsgeschwindigkeit y-Richtung
+            float direction = shootingLeft ? -1 : 1; // -1 für links, 1 für rechts
 
-            float relativeVx = vx - windspeed; // Wind wirkt auf die x-Richtung
+            float vx = direction * v0 * MathF.Cos(radAngle);
+            float vy = v0 * MathF.Sin(radAngle);
 
-            // Wind beeinflusst leichtere Projektile stärker
-            float windEffect = windspeed / (weight + 1); // Stärkere Beeinflussung bei geringem Gewicht
+            float windEffect = windspeed / (weight + 1);
 
-            // Berechnung der Position mit Wind in x-Richtung
-            float x = (vx * t) + (windEffect * MathF.Pow(t, 2));
-            float y = (vy * t) - (0.5f * g * MathF.Pow(t, 2));
+            // Berechnung der Flugbahn mit Startposition
+            float x = startX + (vx * t) + (windEffect * MathF.Pow(t, 2));
+            float y = startY + (vy * t) - (0.5f * 9.81f * MathF.Pow(t, 2));
 
             return new PointF(x, y);
         }
+
     }
 }
