@@ -5,11 +5,17 @@
 
     <Grid RowDefinitions="4*, 1*" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
         <!-- Oberer Bereich: Canvas -->
-        <GraphicsView x:Name="canvasView" 
+
+
+        <StackLayout x:Name="stlayoutgame"
+                 VerticalOptions="FillAndExpand" 
+                 HorizontalOptions="FillAndExpand">
+            <GraphicsView x:Name="canvasView" 
                       VerticalOptions="FillAndExpand" 
                       HorizontalOptions="FillAndExpand" />
+            </StackLayout>
 
-        <!-- Unterer Bereich: Steuerungsleiste -->
+            <!-- Unterer Bereich: Steuerungsleiste -->
         <Border Grid.Row="1"
                 Stroke="Black" 
                 StrokeThickness="2" 
@@ -17,8 +23,10 @@
                 Padding="10">
             <Grid ColumnDefinitions="2*, 1*, 2*" RowDefinitions="*, Auto, *">
                 <HorizontalStackLayout Grid.Column="0" Grid.Row="1" HorizontalOptions="CenterAndExpand" Spacing="10">
-                    <Button Text="Button 1" BackgroundColor="SteelBlue" HorizontalOptions="Center" />
-                    <Button Text="Button 2" BackgroundColor="SteelBlue" HorizontalOptions="Center" />
+                    <Button Text="Power +" BackgroundColor="SteelBlue" HorizontalOptions="Center" />
+                    <Button Text="Power -" BackgroundColor="SteelBlue" HorizontalOptions="Center" />
+                    <Button Text="Angle +" BackgroundColor="SteelBlue" HorizontalOptions="Center" />
+                    <Button Text="Angle -" BackgroundColor="SteelBlue" HorizontalOptions="Center" />
                 </HorizontalStackLayout>
 
                 <Button Grid.Column="1" Grid.Row="1"

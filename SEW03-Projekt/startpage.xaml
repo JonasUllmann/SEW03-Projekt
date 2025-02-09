@@ -40,7 +40,7 @@
         </Grid>
     </ContentPage>
 
-    <ContentPage x:Name="vsPlayer" Title="Play against a Player">
+    <!--<ContentPage x:Name="vsPlayer" Title="Play against a Player">
         <Grid RowDefinitions="0.2*, 0.4*, 0.4*" ColumnDefinitions="*,*">
 
             <Label Text="Spiel gegen einen Spieler" Grid.Row="0" Grid.ColumnSpan="2"
@@ -65,5 +65,5 @@
                     HorizontalOptions="Center"
                     VerticalOptions="EndAndExpand" />
         </Grid>
-    </ContentPage>
+    </ContentPage>-->
 </TabbedPage>

@@ -13,11 +13,12 @@ namespace SEW03_Projekt.Classes
         public string name;
         public int radius;
         public int damage;
-        public int weight; 
-        public Point pos;
+        public int weight;
         public string source;
 
-        private const float g = 9.81f; 
+        private const float g = 9.81f;
+        
+        public Point pos;
 
         public Ammunition()
         {

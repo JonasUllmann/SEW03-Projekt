@@ -12,7 +12,7 @@ namespace SEW03_Projekt
         
         byte selectedAmmo; // 0 -> apple, 1 -> melon, 2 -> wrench, 3 -> dung
         Button pressedbutton;
-        Color lastbordercolor;  //
+        Color lastbordercolor;
 
 
 
@@ -47,6 +47,7 @@ namespace SEW03_Projekt
             {
                 case 0:
                     Apple apple = new Apple();
+
                     projectileFired(apple);
                     break;
                 case 1:
@@ -100,7 +101,29 @@ namespace SEW03_Projekt
         private void projectileFired(Ammunition proj)
         {
 
+            Image projectile = new Image
+            {
+                Source = proj.source,
+                WidthRequest = 50,
+                HeightRequest = 50,
+                Aspect = Aspect.AspectFill
+                
+            };
 
+            // Erstellen des Rahmens
+            Frame frame = new Frame
+            {
+                WidthRequest = 20,
+                HeightRequest = 20,
+                CornerRadius = 50,
+                IsClippedToBounds = true,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                Content = projectile
+            };
+
+
+            stlayoutgame.Children.Add(frame);
           
         }
     }

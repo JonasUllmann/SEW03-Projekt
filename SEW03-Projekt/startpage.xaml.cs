@@ -25,7 +25,7 @@ namespace SEW03_Projekt
 
 
             Player1 = new Playerobject("Gert", 100, 100, new Point(300, 200));
-            _player1Drawable = new Player1Drawable(this);
+            
         }
 
         public string Botdifficulty { get => botdifficulty; set => botdifficulty = value; }
@@ -38,7 +38,7 @@ namespace SEW03_Projekt
             }
         }
 
-        private void btnplayer_Clicked(object sender, EventArgs e)
+       /* private void btnplayer_Clicked(object sender, EventArgs e)
         {
             Botdifficulty = DifficultyPicker.SelectedItem?.ToString();
             if (entplayer1name.Text != null && entplayer1name.Text != "")
@@ -48,6 +48,6 @@ namespace SEW03_Projekt
                     Navigation.PushAsync(new MainPage());
                 }
             }
-        }
+        }*/
     }
 }

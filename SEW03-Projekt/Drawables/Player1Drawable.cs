@@ -17,8 +17,8 @@
             Player1X = (float)_startpage.Player1.Playerpos.X; 
             Player1Y = (float)_startpage.Player1.Playerpos.Y;
 
-            torsostart = new Point(Player1X, Player1Y - 50);
-            torsoend = new Point(Player1X, Player1Y - 100);
+            torsostart = new Point(Player1X, Player1Y - 20);
+            torsoend = new Point(Player1X, Player1Y - 40);
         }
 
         public void Draw(ICanvas canvas, RectF rect)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Drawing;
+using SEW03_Projekt.Classes;
 using Point = Microsoft.Maui.Graphics.Point;
 using PointF = Microsoft.Maui.Graphics.PointF;
 
