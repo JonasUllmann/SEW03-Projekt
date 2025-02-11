@@ -24,8 +24,9 @@ namespace SEW03_Projekt
 
 
 
-            Player1 = new Playerobject("Gert", 100, 100, new Point(300, 200));
-            
+            player1 = new Playerobject("Gert", 100, 100, new Point(300, 200));
+            player2 = new Playerobject("Gundula", 100, 100, new Point(700, 200));
+
         }
 
         public string Botdifficulty { get => botdifficulty; set => botdifficulty = value; }
@@ -34,7 +35,7 @@ namespace SEW03_Projekt
         {
             if (entplayername.Text != null && entplayername.Text != "")
             {
-                Navigation.PushAsync(new MainPage());
+                Navigation.PushAsync(new MainPage(player1, player2));
             }
         }
 

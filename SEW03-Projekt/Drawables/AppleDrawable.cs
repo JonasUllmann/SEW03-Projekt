@@ -32,7 +32,6 @@ public class AppleDrawable : IDrawable
     public void Draw(ICanvas canvas, RectF dirtyRect)
     {
 
-        _position = _ammunition.projectilepath(t, _power, _angle, _windspeed, _shootingLeft, _position.X, _position.Y);
         
 
         canvas.FillColor = _color;

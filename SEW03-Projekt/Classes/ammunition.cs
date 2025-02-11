@@ -25,21 +25,26 @@ namespace SEW03_Projekt.Classes
         }
 
         // Berechnet die x- und y-Position eines Projektils an einem gewissen Zeitpunkt
-        public PointF projectilepath(float t, int power, int angle, float windspeed, bool shootingLeft, float startX, float startY)
+        public PointF projectilepath(float t, int power, int angle, float windspeed, bool shootingLeft, float startX, float startY, float weight)
         {
+            power *= 2;
+
+            // Keine Skalierung von power, es sei denn, sie ist beabsichtigt
             float v0 = power / (1 + (weight / 5f));
             float radAngle = MathF.PI * angle / 180f;
 
-            float direction = shootingLeft ? -1 : 1; // -1 für links, 1 für rechts
-
+            float direction = shootingLeft ? -1 : 1;
             float vx = direction * v0 * MathF.Cos(radAngle);
             float vy = v0 * MathF.Sin(radAngle);
 
+            // Wind als Beschleunigung (z. B. windspeed = m/s²)
             float windEffect = windspeed / (weight + 1);
 
-            // Berechnung der Flugbahn mit Startposition
-            float x = startX + (vx * t) + (windEffect * MathF.Pow(t, 2));
-            float y = startY + (vy * t) - (0.5f * 9.81f * MathF.Pow(t, 2));
+            // Korrekte Anwendung von Wind (0.5 * a * t²)
+            float x = startX + (vx * t) + (0.5f * windEffect * t * t);
+
+            // Annahme: Y-Achse zeigt nach unten
+            float y = startY - (vy * t) + (0.5f * 9.81f * t * t);
 
             return new PointF(x, y);
         }

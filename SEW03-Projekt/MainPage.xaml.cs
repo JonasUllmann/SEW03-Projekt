@@ -1,26 +1,36 @@
 ﻿using SEW03_Projekt.Classes;
 using SEW03_Projekt.Drawables;
+using System.Timers;
 
 namespace SEW03_Projekt
 {
     public partial class MainPage : ContentPage
     {
 
-        string playername = "";
+        private sbyte windspeed = 0;
 
-        bool player1turn; //true player1 ist am zug, false der andere
-        
-        byte selectedAmmo; // 0 -> apple, 1 -> melon, 2 -> wrench, 3 -> dung
-        Button pressedbutton;
-        Color lastbordercolor;
+        private string playername = "";
+
+        private bool player1turn; //true player1 ist am zug, false der andere
+
+        private byte selectedAmmo = 0; // 0 -> apple, 1 -> melon, 2 -> wrench, 3 -> dung
+        private Button pressedbutton;
+        private Color lastbordercolor;
+
+        private Playerobject player1;
+        private Playerobject player2;
 
 
 
 
-        public MainPage()
+
+
+        public MainPage(Playerobject player1, Playerobject player2)
         {
             InitializeComponent();
 
+            this.player1 = player1;
+            this.player2 = player2;
 
             startpage startPageInstance = new startpage();
 
@@ -100,6 +110,8 @@ namespace SEW03_Projekt
 
         private void projectileFired(Ammunition proj)
         {
+            Ammunition amm = new Ammunition();
+            float t = 0;
 
             Image projectile = new Image
             {
@@ -107,7 +119,6 @@ namespace SEW03_Projekt
                 WidthRequest = 50,
                 HeightRequest = 50,
                 Aspect = Aspect.AspectFill
-                
             };
 
             // Erstellen des Rahmens
@@ -122,9 +133,66 @@ namespace SEW03_Projekt
                 Content = projectile
             };
 
-
             stlayoutgame.Children.Add(frame);
-          
+
+            // Timer erstellen
+            System.Timers.Timer timer = new System.Timers.Timer(100); // 100 Millisekunden = 0,1 Sekunden
+            timer.Elapsed += (sender, e) => OnTimedEvent(sender, e, proj, frame, ref t);
+            timer.AutoReset = true; // Timer soll sich wiederholen
+            timer.Enabled = true; // Timer starten
+        }
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e, Ammunition proj, Frame frame, ref float t)
+        {
+            if (t >= 150) // Stoppen, wenn t >= 150
+            {
+                ((System.Timers.Timer)sender).Stop(); // Timer stoppen
+                return;
+            }
+
+            PointF pos = proj.projectilepath(t, player1.Power, player1.Angle, windspeed, false, 300, 300, proj.weight);
+
+
+            MainThread.InvokeOnMainThreadAsync(() =>
+            {
+                frame.TranslationX = pos.X;
+                frame.TranslationY = pos.Y;
+            });
+
+
+            t++; // Inkrementieren Sie t
+        }
+
+        private void PowerChanged(object sender, EventArgs e)
+        {
+            Button pressedbutton = (Button)sender;
+
+            switch (pressedbutton.Text)
+            {
+                case "Power +":
+                    player1.Power++;
+                    break;
+                case "Power -":
+                    player1.Power--;
+                    break;
+            }
+                
+        }
+
+        private void AngleChanged(object sender, EventArgs e)
+        {
+            Button pressedbutton = (Button)sender;
+
+            switch (pressedbutton.Text)
+            {
+                case "Angle +":
+                    player1.Angle++;
+                    break;
+                case "Angle -":
+                    player1.Power--;
+                    break;
+            }
+
         }
     }
 

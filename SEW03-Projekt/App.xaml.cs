@@ -9,7 +9,7 @@
         {
             InitializeComponent();
 
-            MainPageInstance = new MainPage();
+            //MainPageInstance = new MainPage();
             MainPage = new NavigationPage(new startpage());
 
         }

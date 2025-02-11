@@ -1,4 +1,6 @@
-﻿namespace SEW03_Projekt.Drawables
+﻿using SEW03_Projekt;
+
+namespace SEW03_Projekt.Drawables
 {
     public class Player1Drawable : IDrawable
     {
@@ -8,6 +10,8 @@
 
         public float Player1X; 
         public float Player1Y; 
+
+        
 
 
         public Player1Drawable(startpage startpage)
