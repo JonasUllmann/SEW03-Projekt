@@ -1,4 +1,5 @@
-﻿using SEW03_Projekt.Classes;
+﻿using Microsoft.Maui.Controls.PlatformConfiguration;
+using SEW03_Projekt.Classes;
 using SEW03_Projekt.Drawables;
 using System.Timers;
 
@@ -87,18 +88,18 @@ namespace SEW03_Projekt
 
                 pressedbutton = (Button)sender;
 
-            switch (pressedbutton.AutomationId)
+            switch (pressedbutton.Text)
             {
-                case "Btn_apple":
+                case "Apple":
                     selectedAmmo = 0;
                     break;
-                case "Btn_melon":
+                case "Melon":
                     selectedAmmo = 1;
                     break;
-                case "Btn_wrench":
+                case "Wrench":
                     selectedAmmo = 2;
                     break;
-                case "Btn_dung":
+                case "Dung":
                     selectedAmmo = 3;
                     break;
             }
@@ -133,6 +134,9 @@ namespace SEW03_Projekt
                 Content = projectile
             };
 
+            frame.TranslationX = player1.Playerpos.X;
+            frame.TranslationY = player1.Playerpos.Y;
+
             stlayoutgame.Children.Add(frame);
 
             // Timer erstellen
@@ -150,9 +154,9 @@ namespace SEW03_Projekt
                 return;
             }
 
-            PointF pos = proj.projectilepath(t, player1.Power, player1.Angle, windspeed, false, 300, 300, proj.weight);
+            PointF pos = proj.projectilepath(t, player1.Power, player1.Angle, windspeed, false, ((float)player1.Playerpos.X), ((float)player1.Playerpos.Y), proj.weight);
 
-
+            
             MainThread.InvokeOnMainThreadAsync(() =>
             {
                 frame.TranslationX = pos.X;
