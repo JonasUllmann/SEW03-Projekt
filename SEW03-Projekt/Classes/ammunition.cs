@@ -27,7 +27,7 @@ namespace SEW03_Projekt.Classes
         // Berechnet die x- und y-Position eines Projektils an einem gewissen Zeitpunkt
         public PointF projectilepath(float t, int power, int angle, float windspeed, bool shootingLeft, float startX, float startY, float weight)
         {
-            power *= 2;
+            power = (int)(power*1.5);
 
             // Keine Skalierung von power, es sei denn, sie ist beabsichtigt
             float v0 = power / (1 + (weight / 5f));
