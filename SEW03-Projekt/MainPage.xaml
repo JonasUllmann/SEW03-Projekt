@@ -19,8 +19,8 @@
                          Padding="10"
                          VerticalOptions="Start"
                          HorizontalOptions="Start">
-                <Label x:Name="PowerLabel" Text="Power: 50" FontSize="Medium" TextColor="Black" />
-                <Label x:Name="AngleLabel" Text="Angle: 45" FontSize="Medium" TextColor="Black" />
+                <Label Text="{Binding Power, StringFormat='Power: {0}'}" FontSize="Medium" TextColor="Black" />
+                <Label Text="{Binding Angle, StringFormat='Angle: {0}'}" FontSize="Medium" TextColor="Black" />
             </StackLayout>
         </AbsoluteLayout>
 
@@ -36,6 +36,8 @@
                     <Button Text="Power -" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="PowerChanged" />
                     <Button Text="Angle +" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="AngleChanged" />
                     <Button Text="Angle -" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="AngleChanged" />
+                    <!-- Neuer Button: Btn_timesten -->
+                    <Button x:Name="Btn_timesten" Text="x10" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="Btn_timesten_Clicked" BorderWidth="5"/>
                 </HorizontalStackLayout>
 
                 <Button Grid.Column="1" Grid.Row="1"
