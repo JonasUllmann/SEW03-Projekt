@@ -7,7 +7,7 @@ namespace SEW03_Projekt
 {
     public partial class MainPage : ContentPage
     {
-        private sbyte windspeed = 0;
+        private float windspeed;
         private string playername = "";
         private bool player1turn; // true player1 ist am Zug, false der andere
         private byte selectedAmmo = 0; // 0 -> apple, 1 -> melon, 2 -> wrench, 3 -> dung
@@ -32,7 +32,8 @@ namespace SEW03_Projekt
             viewModel = new MainPageViewModel
             {
                 Power = player1.Power,
-                Angle = player1.Angle
+                Angle = player1.Angle,
+                Wind = windspeed
             };
             BindingContext = viewModel;
 
@@ -40,8 +41,10 @@ namespace SEW03_Projekt
             this.player2 = player2;
 
             startpage startPageInstance = new startpage();
-            Player1Drawable player1Drawable = new Player1Drawable(startPageInstance);
+            Player1Drawable player1Drawable = new Player1Drawable(player1);
             canvasView.Drawable = player1Drawable;
+
+            canvasView.SizeChanged += OnCanvasViewSizeChanged;
         }
 
         private void FIRE_BTN_clicked(object sender, EventArgs e)
@@ -188,13 +191,40 @@ namespace SEW03_Projekt
         {
             valuestimesten = !valuestimesten;
 
-            if(valuestimesten)
+            if (valuestimesten)
             {
                 Btn_timesten.BorderColor = Color.FromRgb(255, 255, 0);
             }
             else
             {
                 Btn_timesten.BorderColor = standardbordercolor;
+            }
+
+        }
+
+        public float randomizewind()
+        {
+            float wind;
+
+            Random rand = new Random();
+            wind = rand.Next(-10, 10);
+
+            return wind;
+        }
+
+        private void OnCanvasViewSizeChanged(object sender, EventArgs e)
+        {
+            var graphicsView = sender as GraphicsView;
+            if (graphicsView != null)
+            {
+                float screenWidth = (float)graphicsView.Width;
+                float screenHeight = (float)graphicsView.Height;
+
+                // p1pos basierend auf der GraphicsView-Größe aktualisieren
+                player1.Playerpos = new Point(screenWidth * 0.15f, screenHeight * 0.78f);
+
+                // GraphicsView neu zeichnen
+                graphicsView.Invalidate();
             }
 
         }

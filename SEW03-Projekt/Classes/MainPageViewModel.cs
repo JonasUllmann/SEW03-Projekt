@@ -6,6 +6,7 @@ namespace SEW03_Projekt
     {
         private int _power;
         private int _angle;
+        private float _wind;
 
         public int Power
         {
@@ -33,11 +34,25 @@ namespace SEW03_Projekt
             }
         }
 
+        public float Wind
+        {
+            get => _wind;
+            set
+            {
+                if (_wind != value)
+                {
+                    _wind = value;
+                    OnPropertyChanged(nameof(Wind));
+                }
+            }
+        }
+
         public MainPageViewModel()
         {
             // Initialwerte setzen
             Power = 50;
             Angle = 45;
+            Wind = 0;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

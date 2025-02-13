@@ -1,44 +1,53 @@
-﻿using SEW03_Projekt;
+﻿using Microsoft.Maui.Graphics;
+using SEW03_Projekt.Classes;
 
 namespace SEW03_Projekt.Drawables
 {
     public class Player1Drawable : IDrawable
     {
-        private startpage _startpage;
-        private PointF torsostart;
-        private PointF torsoend;
+        private Playerobject _player;
 
-        public float Player1X; 
-        public float Player1Y; 
-
-        
-
-
-        public Player1Drawable(startpage startpage)
+        public Player1Drawable(Playerobject player)
         {
-            _startpage = startpage;
-
-            Player1X = (float)_startpage.Player1.Playerpos.X; 
-            Player1Y = (float)_startpage.Player1.Playerpos.Y;
-
-            torsostart = new Point(Player1X, Player1Y - 20);
-            torsoend = new Point(Player1X, Player1Y - 40);
+            _player = player;
         }
 
         public void Draw(ICanvas canvas, RectF rect)
         {
-            if (_startpage == null)
+            if (_player == null)
             {
-                //verhindert Programmabsturz falls startpage noch nicht initialisiert ist, war nur für Fehlersuche wichtig
                 return;
             }
 
-            canvas.StrokeColor = Colors.Red;
-            canvas.StrokeSize = 3;
+            // Debug-Ausgabe
+            Console.WriteLine($"Player1 Position: X={_player.Playerpos.X}, Y={_player.Playerpos.Y}");
 
-            canvas.DrawLine(Player1X - 20, Player1Y, Player1X, Player1Y - 50);
-            canvas.DrawLine(Player1X + 20, Player1Y, Player1X, Player1Y - 50);
-            canvas.DrawLine(torsostart, torsoend);
+            // Skalierungsfaktor basierend auf der Bildschirmgröße
+            float scale = Math.Min(rect.Width, rect.Height) / 500f;
+
+            // Strichmännchen zeichnen
+            DrawStickFigure(canvas, (float)_player.Playerpos.X, (float)_player.Playerpos.Y, scale);
+        }
+
+        private void DrawStickFigure(ICanvas canvas, float x, float y, float scale)
+        {
+            // Linienstärke und Farbe
+            canvas.StrokeColor = Colors.Red;
+            canvas.StrokeSize = 3 * scale;
+
+            // Kopf (Kreis)
+            float headRadius = 10 * scale;
+            canvas.DrawCircle(x, y - 50 * scale, headRadius);
+
+            // Körper (Linie)
+            canvas.DrawLine(x, y - 40 * scale, x, y - 10 * scale);
+
+            // Arme (Linien)
+            canvas.DrawLine(x - 20 * scale, y - 30 * scale, x + 20 * scale, y - 30 * scale);
+
+            // Beine (Linien)
+            canvas.DrawLine(x, y - 10 * scale, x - 20 * scale, y + 20 * scale); // Linkes Bein
+            canvas.DrawLine(x, y - 10 * scale, x + 20 * scale, y + 20 * scale); // Rechtes Bein
         }
     }
 }

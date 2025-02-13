@@ -4,10 +4,19 @@
              BackgroundColor="White">
 
     <Grid RowDefinitions="4*, 1*" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+        <Image Source="hintergrund.png"
+                   AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                   Aspect="Fill" />
         <!-- Oberer Bereich: Canvas -->
         <AbsoluteLayout x:Name="stlayoutgame"
                         VerticalOptions="FillAndExpand" 
                         HorizontalOptions="FillAndExpand">
+
+            <!-- Hintergrundbild -->
+
+
             <GraphicsView x:Name="canvasView" 
                           AbsoluteLayout.LayoutFlags="All"
                           AbsoluteLayout.LayoutBounds="0, 0, 1, 1" />
