@@ -31,7 +31,7 @@ namespace SEW03_Projekt
 
 
             // p1pos initialisieren
-            p1pos = new Point(screenWidth * 0.15f, screenHeight * 0.85f);
+            p1pos = new Point(screenWidth * 0.15f, screenHeight * 0.82f);
 
             // Player1 mit p1pos initialisieren
             player1 = new Playerobject("Gert", 100, 100, p1pos);

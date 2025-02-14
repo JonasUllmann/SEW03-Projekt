@@ -221,7 +221,7 @@ namespace SEW03_Projekt
                 float screenHeight = (float)graphicsView.Height;
 
                 // p1pos basierend auf der GraphicsView-Größe aktualisieren
-                player1.Playerpos = new Point(screenWidth * 0.15f, screenHeight * 0.78f);
+                player1.UpdatePosition(new Point(screenWidth * 0.15f, screenHeight * 0.82f));
 
                 // GraphicsView neu zeichnen
                 graphicsView.Invalidate();

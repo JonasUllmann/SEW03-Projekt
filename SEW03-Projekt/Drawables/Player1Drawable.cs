@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.Graphics;
-using SEW03_Projekt.Classes;
-
-namespace SEW03_Projekt.Drawables
+﻿namespace SEW03_Projekt.Drawables
 {
     public class Player1Drawable : IDrawable
     {
@@ -22,11 +19,23 @@ namespace SEW03_Projekt.Drawables
             // Debug-Ausgabe
             Console.WriteLine($"Player1 Position: X={_player.Playerpos.X}, Y={_player.Playerpos.Y}");
 
-            // Skalierungsfaktor basierend auf der Bildschirmgröße
+            // skalierungsfaktor
             float scale = Math.Min(rect.Width, rect.Height) / 500f;
 
             // Strichmännchen zeichnen
             DrawStickFigure(canvas, (float)_player.Playerpos.X, (float)_player.Playerpos.Y, scale);
+
+            _player.ResizeHitbox(scale * _player.Hitbox.Width, scale * _player.Hitbox.Height);
+
+
+            canvas.StrokeColor = Colors.Blue;
+            canvas.StrokeSize = 2;
+            canvas.DrawRectangle(
+                _player.Hitbox.X,
+                _player.Hitbox.Y,
+                _player.Hitbox.Width,
+                _player.Hitbox.Height
+            );
         }
 
         private void DrawStickFigure(ICanvas canvas, float x, float y, float scale)
