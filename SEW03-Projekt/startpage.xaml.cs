@@ -29,12 +29,6 @@ namespace SEW03_Projekt
             float screenWidth = (float)displayInfo.Width;
             float screenHeight = (float)displayInfo.Height;
 
-            // Falls die Werte 0 sind, verwenden Sie Standardwerte
-            if (screenWidth <= 0 || screenHeight <= 0)
-            {
-                screenWidth = 800; // Standardbreite
-                screenHeight = 600; // Standardhöhe
-            }
 
             // p1pos initialisieren
             p1pos = new Point(screenWidth * 0.15f, screenHeight * 0.85f);
