@@ -11,52 +11,58 @@
 
         public void Draw(ICanvas canvas, RectF rect)
         {
-            if (_player == null)
-            {
-                return;
-            }
+            if (_player?.Hitbox == null) return;
 
-            // Debug-Ausgabe
-            Console.WriteLine($"Player1 Position: X={_player.Playerpos.X}, Y={_player.Playerpos.Y}");
+            // Strichmännchen MIT Skalierung zeichnen
+            float scale = _player.Hitbox.Width / 40f; // 40 = baseWidth
+            DrawStickFigure(canvas, _player.Playerpos, scale);
 
-            // skalierungsfaktor
-            float scale = Math.Min(rect.Width, rect.Height) / 500f;
-
-            // Strichmännchen zeichnen
-            DrawStickFigure(canvas, (float)_player.Playerpos.X, (float)_player.Playerpos.Y, scale);
-
-            _player.ResizeHitbox(scale * _player.Hitbox.Width, scale * _player.Hitbox.Height);
-
-
-            canvas.StrokeColor = Colors.Blue;
-            canvas.StrokeSize = 2;
-            canvas.DrawRectangle(
-                _player.Hitbox.X,
-                _player.Hitbox.Y,
-                _player.Hitbox.Width,
-                _player.Hitbox.Height
-            );
+            // Hitbox zeichnen
+            canvas.StrokeColor = Colors.Blue.WithAlpha(0.5f);
+            canvas.DrawRectangle(_player.Hitbox.X, _player.Hitbox.Y, _player.Hitbox.Width, _player.Hitbox.Height);
         }
 
-        private void DrawStickFigure(ICanvas canvas, float x, float y, float scale)
+        private void DrawStickFigure(ICanvas canvas, PointF position, float scale)
         {
-            // Linienstärke und Farbe
             canvas.StrokeColor = Colors.Red;
-            canvas.StrokeSize = 3 * scale;
+            canvas.StrokeSize = 1.5f * scale;
 
-            // Kopf (Kreis)
+            // Alle Werte skalieren
             float headRadius = 10 * scale;
-            canvas.DrawCircle(x, y - 50 * scale, headRadius);
+            float bodyLength = 30 * scale;
 
-            // Körper (Linie)
-            canvas.DrawLine(x, y - 40 * scale, x, y - 10 * scale);
+            // Kopf
+            canvas.DrawCircle(position.X, position.Y - 50 * scale, headRadius);
 
-            // Arme (Linien)
-            canvas.DrawLine(x - 20 * scale, y - 30 * scale, x + 20 * scale, y - 30 * scale);
+            // Körper
+            canvas.DrawLine(
+                position.X,
+                position.Y - 40 * scale,
+                position.X,
+                position.Y - 10 * scale
+            );
 
-            // Beine (Linien)
-            canvas.DrawLine(x, y - 10 * scale, x - 20 * scale, y + 20 * scale); // Linkes Bein
-            canvas.DrawLine(x, y - 10 * scale, x + 20 * scale, y + 20 * scale); // Rechtes Bein
+            // Arme
+            canvas.DrawLine(
+                position.X - 20 * scale,
+                position.Y - 30 * scale,
+                position.X + 20 * scale,
+                position.Y - 30 * scale
+            );
+
+            // Beine
+            canvas.DrawLine(
+                position.X,
+                position.Y - 10 * scale,
+                position.X - 20 * scale,
+                position.Y + 20 * scale
+            );
+            canvas.DrawLine(
+                position.X,
+                position.Y - 10 * scale,
+                position.X + 20 * scale,
+                position.Y + 20 * scale
+            );
         }
     }
 }

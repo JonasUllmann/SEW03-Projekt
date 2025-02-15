@@ -13,18 +13,16 @@
         Height = height;
     }
 
-    // Methode zum Aktualisieren der Position
-    public void UpdatePosition(float x, float y)
+    public void CenterAround(PointF position)
     {
-        X = x;
-        Y = y;
+        X = position.X - (Width / 2);
+        Y = position.Y - (Height / 1.3f);
     }
 
-    // Methode zum Aktualisieren der Größe
     public void UpdateSize(float width, float height)
     {
         Width = width;
-        Height = height;
+        Height = height * 1.1f;
     }
 
     // Methode zum Überprüfen, ob ein Punkt in der Hitbox liegt
@@ -34,9 +32,4 @@
                point.Y >= Y && point.Y <= Y + Height;
     }
 
-    public void CenterAround(PointF position)
-    {
-        X = position.X - (Width / 2);
-        Y = position.Y - (Height / 2);
-    }
 }

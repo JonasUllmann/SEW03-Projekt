@@ -3,6 +3,7 @@
 
     private int health;
     private int maxhealth;
+    private bool isshootingleft;
     public string Name { get; set; }
     public int Power { get; set; }
     public int Angle { get; set; }
@@ -10,36 +11,37 @@
     public Hitbox Hitbox { get; set; }
     public int Health { get => health; set => health = value; }
     public int Maxhealth { get => maxhealth; set => maxhealth = value; }
+    public bool Isshootingleft { get => isshootingleft; set => isshootingleft = value; }
+
+    private readonly float baseWidth = 40f;
+    private readonly float baseHeight = 70f;
 
 
-    public Playerobject(string name, int health, int maxhealth, PointF playerpos, float scale = 1f)
+    public Playerobject(string name, int health, int maxhealth, PointF playerpos, bool isshootingleft)
     {
-        Name = name;
+        this.Name = name;
         this.health = health;
         this.maxhealth = maxhealth;
+        this.isshootingleft = isshootingleft;
+        this.Playerpos = playerpos;
+
         Power = 50;
         Angle = 45;
-        Playerpos = playerpos;
 
-        // Hitbox mit Skalierung initialisieren
-        float baseWidth = 40f;
-        float baseHeight = 70f;
-        Hitbox = new Hitbox(
-            x: playerpos.X - (baseWidth * scale / 2),
-            y: playerpos.Y - (baseHeight * scale / 2),
-            width: baseWidth * scale,
-            height: baseHeight * scale
-        );
+        Hitbox = new Hitbox(0, 0, baseWidth, baseHeight);
+        UpdatePosition(playerpos, 1f); // Initial mit scale=1
+
     }
     // aktualisiert Hitbox + Playerpos
     public void UpdatePosition(PointF newPosition, float scale)
     {
         Playerpos = newPosition;
-        // Hitbox zentriert um die Spielerposition
-        Hitbox.UpdatePosition(
-            newPosition.X - (Hitbox.Width / 2),
-            newPosition.Y - (Hitbox.Height / 2)
-        );
+
+        // Hitbox-Größe neu berechnen
+        Hitbox.UpdateSize(baseWidth * scale, baseHeight * scale);
+
+        // Hitbox zentrieren
+        Hitbox.CenterAround(newPosition);
     }
 
 

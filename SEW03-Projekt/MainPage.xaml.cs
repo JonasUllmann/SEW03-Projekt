@@ -42,26 +42,47 @@ namespace SEW03_Projekt
 
             startpage startPageInstance = new startpage();
             Player1Drawable player1Drawable = new Player1Drawable(player1);
-            canvasView.Drawable = player1Drawable;
+            Player2Drawable player2Drawable = new Player2Drawable(player2);
+            Draweverything draweverything = new Draweverything(player1Drawable, player2Drawable);
+
+            canvasView.Drawable = draweverything;
 
             canvasView.SizeChanged += OnCanvasViewSizeChanged;
         }
+
+        public void gameloop()
+        {
+            while (true)
+            {
+
+
+
+
+            }
+
+
+
+        }
+
+
+
+
 
         private void FIRE_BTN_clicked(object sender, EventArgs e)
         {
             switch (selectedAmmo)
             {
                 case 0:
-                    projectileFired(new Apple());
+                    projectileFired(new Apple(), player1, player2);
                     break;
                 case 1:
-                    projectileFired(new Melon());
+                    projectileFired(new Melon(), player1, player2);
                     break;
                 case 2:
-                    projectileFired(new Wrench());
+                    projectileFired(new Wrench(), player1, player2);
                     break;
                 case 3:
-                    projectileFired(new Dung());
+                    projectileFired(new Dung(), player1, player2);
                     break;
             }
         }
@@ -93,7 +114,7 @@ namespace SEW03_Projekt
             pressedbutton.BorderColor = Color.FromRgb(255, 255, 0);
         }
 
-        private void projectileFired(Ammunition proj)
+        private void projectileFired(Ammunition proj, Playerobject attackingplayer, Playerobject attackedplayer)
         {
             Ammunition amm = new Ammunition();
             float t = 0;
@@ -118,27 +139,47 @@ namespace SEW03_Projekt
                 Content = projectile
             };
 
-            frame.TranslationX = player1.Playerpos.X;
-            frame.TranslationY = player1.Playerpos.Y;
+            frame.TranslationX = attackingplayer.Playerpos.X;
+            frame.TranslationY = attackingplayer.Playerpos.Y * 0.9f;
 
             stlayoutgame.Children.Add(frame);
 
             // Timer erstellen
             System.Timers.Timer timer = new System.Timers.Timer(20); // 100 Millisekunden = 0,1 Sekunden
-            timer.Elapsed += (sender, e) => OnTimedEvent(sender, e, proj, frame, ref t); //Event wird bei jedem Timertick ausgeführt
+            timer.Elapsed += (sender, e) => OnTimedEvent(sender, e, proj, ref t, canvasView.Width, canvasView.Height, attackingplayer, attackedplayer, frame); //Event wird bei jedem Timertick ausgeführt
             timer.AutoReset = true; // Timer soll sich wiederholen
             timer.Enabled = true; // Timer starten
         }
 
-        private void OnTimedEvent(object sender, ElapsedEventArgs e, Ammunition proj, Frame frame, ref float t)
+        private void OnTimedEvent(object sender, ElapsedEventArgs e, Ammunition proj, ref float t, double gwidth, double gheight, Playerobject attackingplayer, Playerobject attackedplayer, Frame frame)
         {
-            if (t >= 150) // Stoppen, wenn t >= 150
+            PointF pos = proj.projectilepath(t, attackingplayer.Power, attackingplayer.Angle, windspeed, attackingplayer.Isshootingleft, (float)attackingplayer.Playerpos.X, (float)attackingplayer.Playerpos.Y * 0.9f, proj.weight);
+
+            if (attackedplayer.Hitbox.Contains(pos))
             {
-                ((System.Timers.Timer)sender).Stop(); // Timer stoppen
+                attackedplayer.Health -= proj.damage;
+                MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    if (frame.Parent is Layout layout)
+                    {
+                        layout.Children.Remove(frame); // Frame aus dem Layout entfernen
+                    }
+                });
+                ((System.Timers.Timer)sender).Stop();
                 return;
             }
-
-            PointF pos = proj.projectilepath(t, player1.Power, player1.Angle, windspeed, false, (float)player1.Playerpos.X, (float)player1.Playerpos.Y, proj.weight);
+            else if (pos.X < 0 || pos.X > gwidth || pos.Y > gheight * 0.84f)
+            {
+                MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    if (frame.Parent is Layout layout)
+                    {
+                        layout.Children.Remove(frame); // Frame aus dem Layout entfernen
+                    }
+                });
+                ((System.Timers.Timer)sender).Stop();
+                return;
+            }
 
             MainThread.InvokeOnMainThreadAsync(() =>
             {
@@ -146,8 +187,9 @@ namespace SEW03_Projekt
                 frame.TranslationY = pos.Y;
             });
 
-            t += 0.2f; // Inkrementieren Sie t
+            t += 0.2f;
         }
+
 
         private void PowerChanged(object sender, EventArgs e)
         {
@@ -214,19 +256,30 @@ namespace SEW03_Projekt
 
         private void OnCanvasViewSizeChanged(object sender, EventArgs e)
         {
-            var graphicsView = sender as GraphicsView;
-            if (graphicsView != null)
-            {
-                float screenWidth = (float)graphicsView.Width;
-                float screenHeight = (float)graphicsView.Height;
+            GraphicsView graphicsView = sender as GraphicsView;
+            if (graphicsView?.Width == null || graphicsView.Height == null) return;
 
-                // p1pos basierend auf der GraphicsView-Größe aktualisieren
-                player1.UpdatePosition(new Point(screenWidth * 0.15f, screenHeight * 0.82f));
+            // Skalierungsfaktor berechnen
+            float scale = Math.Min(
+                (float)graphicsView.Width / 500f,
+                (float)graphicsView.Height / 500f
+            );
 
-                // GraphicsView neu zeichnen
-                graphicsView.Invalidate();
-            }
+            // Neue Position für p1 (15% vom Rand, 82% von oben)
+            PointF newPos1 = new PointF(
+                (float)graphicsView.Width * 0.15f,
+                (float)graphicsView.Height * 0.82f
+            );
+            // Neue Position für p2 (85% vom Rand, 82% von oben)
+            PointF newPos2 = new PointF(
+                (float)graphicsView.Width * 0.85f,
+                (float)graphicsView.Height * 0.82f
+);
 
+            // Hitbox aktualisieren
+            player1.UpdatePosition(newPos1, scale);
+            player2.UpdatePosition(newPos2, scale);
+            graphicsView.Invalidate();
         }
     }
 }

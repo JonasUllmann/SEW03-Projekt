@@ -32,10 +32,11 @@ namespace SEW03_Projekt
 
             // p1pos initialisieren
             p1pos = new Point(screenWidth * 0.15f, screenHeight * 0.82f);
+            p2pos = new Point(screenWidth * 0.85f, screenHeight * 0.82f);
 
             // Player1 mit p1pos initialisieren
-            player1 = new Playerobject("Gert", 100, 100, p1pos);
-            player2 = new Playerobject("Gundula", 100, 100, new Point(700, 200));
+            player1 = new Playerobject("Gert", 100, 100, p1pos, false);
+            player2 = new Playerobject("Gundula", 100, 100, p2pos, true);
         }
 
         public string Botdifficulty { get => botdifficulty; set => botdifficulty = value; }
