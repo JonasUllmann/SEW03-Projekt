@@ -14,7 +14,7 @@ namespace SEW03_Projekt.Classes
         public int radius;
         public int damage;
         public int weight;
-        public string source;
+        public Microsoft.Maui.Graphics.Color color;
 
         private const float g = 9.81f;
         
@@ -27,10 +27,10 @@ namespace SEW03_Projekt.Classes
         // Berechnet die x- und y-Position eines Projektils an einem gewissen Zeitpunkt
         public PointF projectilepath(float t, int power, int angle, float windspeed, bool shootingLeft, float startX, float startY, float weight)
         {
-            power = (int)(power*1.5);
+            //power = (int)(power*2);
 
             // Keine Skalierung von power, es sei denn, sie ist beabsichtigt
-            float v0 = power / (1 + (weight / 5f));
+            float v0 = power / (1 + (weight / 15f));
             float radAngle = MathF.PI * angle / 180f;
 
             float direction = shootingLeft ? -1 : 1;

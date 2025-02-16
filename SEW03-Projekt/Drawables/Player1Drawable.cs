@@ -18,8 +18,8 @@
             DrawStickFigure(canvas, _player.Playerpos, scale);
 
             // Hitbox zeichnen
-            canvas.StrokeColor = Colors.Blue.WithAlpha(0.5f);
-            canvas.DrawRectangle(_player.Hitbox.X, _player.Hitbox.Y, _player.Hitbox.Width, _player.Hitbox.Height);
+            /*canvas.StrokeColor = Colors.Blue.WithAlpha(0.5f);
+            canvas.DrawRectangle(_player.Hitbox.X, _player.Hitbox.Y, _player.Hitbox.Width, _player.Hitbox.Height);*/
         }
 
         private void DrawStickFigure(ICanvas canvas, PointF position, float scale)

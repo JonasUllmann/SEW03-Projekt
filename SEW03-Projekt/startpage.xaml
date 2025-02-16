@@ -10,26 +10,47 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.2*" />
                     <RowDefinition Height="0.4*" />
-                    <RowDefinition Height="0.4*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Spiel gegen einen Bot" Grid.Row="0" Grid.ColumnSpan="2"
+                <Label Text="Play against a Bot" Grid.Row="0" Grid.Column="2"
                    HorizontalOptions="Center"
                    VerticalOptions="End"
                    FontSize="Medium" />
 
-                <Entry x:Name="entplayername" Grid.Row="1" Grid.Column="0" 
-                   Placeholder="name" 
-                   WidthRequest="150"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Center" />
+                <Button Text="Load Game" Grid.Row="1" Grid.Column="1"
+                    x:Name="btn_load"
+                    Clicked="btn_load_Clicked"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
 
-                <Picker x:Name="DifficultyPicker" Grid.Row="1" Grid.Column="1"
+                <Button Text="Continue" Grid.Row="1" Grid.Column="2"
+                    x:Name="btn_continue"
+                    IsVisible="False"
+                    Clicked="btn_continue_Clicked"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+
+                <Button Text="Start a new Game" Grid.Row="1" Grid.Column="3"
+                    x:Name="btn_bot"
+                    Clicked="btnbot_Clicked"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+            </Grid>
+        </ScrollView>
+    </ContentPage>
+    <!--
+    
+    
+                    <Picker x:Name="DifficultyPicker" Grid.Row="1" Grid.Column="1"
                     Title="Select Difficulty"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
@@ -42,15 +63,11 @@
                         </x:Array>
                     </Picker.ItemsSource>
                 </Picker>
-
-                <Button Text="Start Bot Game" Grid.Row="2" Grid.ColumnSpan="2"
-                    Clicked="btnbot_Clicked"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center" />
-            </Grid>
-        </ScrollView>
-    </ContentPage>
-    <!--<ContentPage x:Name="vsPlayer" Title="Play against a Player">
+    
+    
+    
+    
+    <ContentPage x:Name="vsPlayer" Title="Play against a Player">
         <Grid RowDefinitions="0.2*, 0.4*, 0.4*" ColumnDefinitions="*,*">
 
             <Label Text="Spiel gegen einen Spieler" Grid.Row="0" Grid.ColumnSpan="2"

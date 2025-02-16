@@ -17,9 +17,8 @@
     private readonly float baseHeight = 70f;
 
 
-    public Playerobject(string name, int health, int maxhealth, PointF playerpos, bool isshootingleft)
+    public Playerobject(int health, int maxhealth, PointF playerpos, bool isshootingleft)
     {
-        this.Name = name;
         this.health = health;
         this.maxhealth = maxhealth;
         this.isshootingleft = isshootingleft;

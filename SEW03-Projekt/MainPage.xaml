@@ -1,21 +1,28 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SEW03_Projekt"
              x:Class="SEW03_Projekt.MainPage"
              BackgroundColor="White">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:HealthToProgressConverter x:Key="HealthToProgressConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="4*, 1*" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
         <Image Source="hintergrund.png"
-                   AbsoluteLayout.LayoutFlags="All"
-                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                   Aspect="Fill" />
+               AbsoluteLayout.LayoutFlags="All"
+               AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+               Aspect="Fill" />
+
         <!-- Oberer Bereich: Canvas -->
         <AbsoluteLayout x:Name="stlayoutgame"
                         VerticalOptions="FillAndExpand" 
                         HorizontalOptions="FillAndExpand">
 
             <!-- Hintergrundbild -->
-
 
             <GraphicsView x:Name="canvasView" 
                           AbsoluteLayout.LayoutFlags="All"
@@ -30,7 +37,29 @@
                          HorizontalOptions="Start">
                 <Label Text="{Binding Power, StringFormat='Power: {0}'}" FontSize="Medium" TextColor="Black" />
                 <Label Text="{Binding Angle, StringFormat='Angle: {0}'}" FontSize="Medium" TextColor="Black" />
+                <Label Text="{Binding Wind, StringFormat='Wind: {0}'}" FontSize="Medium" TextColor="Black" />
+
+                <!-- Lebensanzeige für Spieler 1 -->
+                <ProgressBar AbsoluteLayout.LayoutFlags="PositionProportional"
+                          AbsoluteLayout.LayoutBounds="0.15, 0.05, 0.3, 0.05"
+                          Progress="{Binding Player1Health, Converter={StaticResource HealthToProgressConverter}}"
+                          ProgressColor="Red" />
+
+                <!-- Lebensanzeige für Spieler 2 -->
+                <ProgressBar AbsoluteLayout.LayoutFlags="PositionProportional"
+                          AbsoluteLayout.LayoutBounds="0.85, 0.05, 0.3, 0.05"
+                          Progress="{Binding Player2Health, Converter={StaticResource HealthToProgressConverter}}"
+                          ProgressColor="Blue" />
             </StackLayout>
+
+            <!-- Button in der rechten oberen Ecke -->
+            <Button x:Name="btn_save"
+                    Text="Save Game"
+                    BackgroundColor="Pink"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="1, 0, AutoSize, AutoSize"
+                    Clicked="btn_save_Clicked" />
+
         </AbsoluteLayout>
 
         <!-- Unterer Bereich: Steuerungsleiste -->
@@ -39,17 +68,18 @@
                 StrokeThickness="2" 
                 BackgroundColor="White"
                 Padding="10">
-            <Grid ColumnDefinitions="2*, 1*, 2*" RowDefinitions="*, Auto, *">
+            <Grid ColumnDefinitions="2*, 0.5*, 2*" RowDefinitions="*, Auto, *">
                 <HorizontalStackLayout Grid.Column="0" Grid.Row="1" HorizontalOptions="CenterAndExpand" Spacing="10">
-                    <Button Text="Power +" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="PowerChanged" />
-                    <Button Text="Power -" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="PowerChanged" />
-                    <Button Text="Angle +" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="AngleChanged" />
-                    <Button Text="Angle -" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="AngleChanged" />
+                    <Button x:Name="btn_powerp" Text="Power +" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="PowerChanged" />
+                    <Button x:Name="btn_powerm" Text="Power -" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="PowerChanged" />
+                    <Button x:Name="btn_anglep" Text="Angle +" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="AngleChanged" />
+                    <Button x:Name="btn_anglem" Text="Angle -" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="AngleChanged" />
                     <!-- Neuer Button: Btn_timesten -->
                     <Button x:Name="Btn_timesten" Text="x10" BackgroundColor="SteelBlue" HorizontalOptions="Center" Clicked="Btn_timesten_Clicked" BorderWidth="5"/>
                 </HorizontalStackLayout>
 
                 <Button Grid.Column="1" Grid.Row="1"
+                        x:Name="btn_fire"
                         Text="FIRE!" 
                         BackgroundColor="IndianRed"
                         HorizontalOptions="Center"
