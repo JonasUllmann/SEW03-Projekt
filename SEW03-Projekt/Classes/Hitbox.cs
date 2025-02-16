@@ -1,9 +1,9 @@
 ﻿public class Hitbox
 {
-    public float X { get; private set; }
-    public float Y { get; private set; }
-    public float Width { get; private set; }
-    public float Height { get; private set; }
+    public float X { get; private set; } //x koordinate
+    public float Y { get; private set; } //y koordinate
+    public float Width { get; private set; } //breite
+    public float Height { get; private set; } //höhe
 
     public Hitbox(float x, float y, float width, float height)
     {
@@ -13,12 +13,14 @@
         Height = height;
     }
 
+    //zentriert die hitbox um einen bestimmten Punkt
     public void CenterAround(PointF position)
     {
         X = position.X - (Width / 2);
         Y = position.Y - (Height / 1.3f);
     }
 
+    // updatet größe der Hitbox
     public void UpdateSize(float width, float height)
     {
         Width = width;

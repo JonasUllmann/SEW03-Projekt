@@ -85,6 +85,7 @@ internal class MainPageViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler PropertyChanged;
 
+    //wird ausgeführt wenn eine der Obenbeschriebenen Properties geändert wird
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

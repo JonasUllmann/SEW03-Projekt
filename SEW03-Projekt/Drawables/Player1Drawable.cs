@@ -15,6 +15,7 @@
 
             // Strichmännchen MIT Skalierung zeichnen
             float scale = _player.Hitbox.Width / 40f; // 40 = baseWidth
+            
             DrawStickFigure(canvas, _player.Playerpos, scale);
 
             // Hitbox zeichnen
@@ -24,6 +25,7 @@
 
         private void DrawStickFigure(ICanvas canvas, PointF position, float scale)
         {
+            //voreinstellungen
             canvas.StrokeColor = Colors.Red;
             canvas.StrokeSize = 1.5f * scale;
 

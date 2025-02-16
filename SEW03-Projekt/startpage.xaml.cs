@@ -9,10 +9,7 @@ namespace SEW03_Projekt
     {
         MainPage mainpage;
 
-        string botdifficulty = "";
-
-        private Player1Drawable _player1Drawable;
-
+        //startposition der Spieler
         private Point p1pos;
         private Point p2pos;
 
@@ -32,17 +29,16 @@ namespace SEW03_Projekt
             float screenHeight = (float)displayInfo.Height;
 
 
-            // p1pos initialisieren
+            // Startpositionen mit Werten relativ zur Bildschirmgröße initialisieren
             p1pos = new Point(screenWidth * 0.15f, screenHeight * 0.82f);
             p2pos = new Point(screenWidth * 0.85f, screenHeight * 0.82f);
 
-            // Player1 mit p1pos initialisieren
+            //beide spieler objekte erstellen
             player1 = new Playerobject(100, 100, p1pos, false);
             player2 = new Playerobject(100, 100, p2pos, true);
         }
 
-        public string Botdifficulty { get => botdifficulty; set => botdifficulty = value; }
-
+        //Button um neues Spiel zu beginnen
         private void btnbot_Clicked(object sender, EventArgs e)
         {
             //Botdifficulty = DifficultyPicker.SelectedItem?.ToString();
@@ -55,6 +51,7 @@ namespace SEW03_Projekt
             
         }
 
+        //Button um ein altes Spiel via CSV zu laden
         private void btn_load_Clicked(object sender, EventArgs e)
         {
             btn_continue.IsVisible = true;
@@ -65,6 +62,7 @@ namespace SEW03_Projekt
             Navigation.PushAsync(mainpage);
         }
 
+        //BUtton um wieder auf die Mainpage zurückzukehren
         private void btn_continue_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(mainpage);

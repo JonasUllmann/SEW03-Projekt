@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace SEW03_Projekt.Drawables
 {
+
+    //zeichnet beide Spieler auf einen Canvas
     public class Draweverything : IDrawable
     {
         private Player1Drawable p1;

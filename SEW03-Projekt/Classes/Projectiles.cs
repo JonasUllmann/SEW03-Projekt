@@ -8,7 +8,7 @@ using PointF = Microsoft.Maui.Graphics.PointF;
 
 
 
-
+//Klasse für alle Projektile
 namespace SEW03_Projekt.Classes
 {
     public class Apple : Ammunition

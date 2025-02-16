@@ -9,27 +9,28 @@ namespace SEW03_Projekt
 {
     public partial class MainPage : ContentPage
     {
-        private float windspeed;
+        private float windspeed; // Windgeschwindigkeit - nach links + nach rechts
         private bool playerturn; // true player1 ist am Zug, false der andere
         private byte selectedAmmo = 0; // 0 -> apple, 1 -> melon, 2 -> wrench, 3 -> dung
         private Button pressedbutton;
-        private Color standardbordercolor;
+        private Color standardbordercolor; //speichert die normale Bordercolor um bei munitionswechsel wieder auf altes design zu switchen
         
-        private bool valuestimesten = false;
+        private bool valuestimesten = false; //wichtig für den x10 button alle werte bei winkel und power werden 10fach gewertet
 
-        private bool saveloaded;
+        private bool saveloaded; //von startpage mitgegeben wenn true wird ein ehemaliger save geladen, sonst nicht
 
 
-        private float scale;
+        private float scale; //skalierung von fast allen objekten relativ zur bildschirmgröße
 
         private Playerobject player1;
         private Playerobject player2;
 
-        private MainPageViewModel viewModel;
+        private MainPageViewModel viewModel; 
 
-        Random rand;
+        Random rand; //random objekt gebraucht für windspeed und Bot
 
-        private TaskCompletionSource<bool> fireButtonPressedTcs;
+        //Taskcheckpoints es wird gewartet bis diese erfüllt sind
+        private TaskCompletionSource<bool> fireButtonPressedTcs; 
         private TaskCompletionSource<bool> projectilegone;
 
 
@@ -40,13 +41,15 @@ namespace SEW03_Projekt
         {
             InitializeComponent();
 
-            NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false); // entfernt die Navigationbar am Handy
 
+            //rechnet die Skalierung aus
             scale = Math.Min(
                 (float)canvasView.Width / 500f,
                 (float)canvasView.Height / 500f
             );
 
+            //initialisiert die standard border color
             standardbordercolor = Btn_dung.BorderColor;
 
             // ViewModel instanziieren und BindingContext setzen
@@ -60,21 +63,24 @@ namespace SEW03_Projekt
             };
             BindingContext = viewModel;
 
+
             this.player1 = player1;
             this.player2 = player2;
             this.saveloaded = saveloaded;
 
             rand = new Random();
-
             startpage startPageInstance = new startpage();
             Player1Drawable player1Drawable = new Player1Drawable(player1);
             Player2Drawable player2Drawable = new Player2Drawable(player2);
             Draweverything draweverything = new Draweverything(player1Drawable, player2Drawable);
 
+            //verweist die draweverything klasse auf die Graphicsview im XAML -> Beide Figuren werden gezeichnet
             canvasView.Drawable = draweverything;
 
+            //Wenn die größe des Graphicsview (also auch die des ganzen fensters) ändert wird die skalierung neu ausgerechnet und alles neugezeichnet
             canvasView.SizeChanged += OnCanvasViewSizeChanged;
 
+            //eintritt in den Gameloop
             Gamestart();
         }
 
@@ -83,12 +89,15 @@ namespace SEW03_Projekt
          
             unlockplayerbuttons();
 
+            //wenn ganz am anfang der Knopf zum laden eines Saves gedrückt wurde wird jetzt alles geladen
             if (saveloaded)
             {
                 LoadGameFromCsv();
             }
 
+            //Feuer button wird gesperrt bis eine Munition ausgewählt wurde
             btn_fire.IsEnabled = false;
+            //windgeschwindigkeit wird random ausgewählt
             UpdateWindSpeed(randomizewind());
 
             Gameloop();
@@ -99,13 +108,16 @@ namespace SEW03_Projekt
 
             while (true)
             {
+                //Überprüfung ob noch beide Spieler am Leben sind
                 if (player1.Health <= 0 || player2.Health <= 0)
                 {
+
                     lockplayerbuttons();
                     reset();
 
                 }
 
+                //Der spieler ist am zug
                 playerturn = true;
 
                 // Warte darauf, dass der Fire-Button gedrückt wird
@@ -113,10 +125,10 @@ namespace SEW03_Projekt
                 await fireButtonPressedTcs.Task;
 
                 //warten bis das projektil weg ist
-
                 projectilegone = new TaskCompletionSource<bool>();
                 await projectilegone.Task;
 
+                //Überprüfung ob noch beide Spieler am Leben sind
                 if (player1.Health <= 0 || player2.Health <= 0)
                 {
                     lockplayerbuttons();
@@ -125,12 +137,15 @@ namespace SEW03_Projekt
                 }
 
 
-
+                //wenn Spieler nicht am zug ist
                 if (!playerturn)
                 {
+                    //2sekunden warten
                     await Task.Delay(2000);
+                    //zug des Bots
                     botturn();
 
+                    //Überprüfung ob noch beide Spieler am Leben sind
                     if (player1.Health <= 0 || player2.Health <= 0)
                     {
                         lockplayerbuttons();
@@ -149,6 +164,7 @@ namespace SEW03_Projekt
 
         public void reset()
         {
+            //Popup das das Spiel vorbei ist und zurücksetzen der entsprechenden variablen
             DisplayAlert("Game ended.", "The game has ended", "Reset");
             player1.Health = player1.Maxhealth;
             player2.Health = player2.Maxhealth;
@@ -156,6 +172,7 @@ namespace SEW03_Projekt
             btn_fire.IsEnabled = false;
 
             unlockplayerbuttons();
+            //wiedereintritt in den Gameloop
             Gameloop();
 
 
@@ -166,8 +183,10 @@ namespace SEW03_Projekt
         public void botturn()
         {
             
+            //zuerst zufällige ermittlung eines Munitionstypen
             int botammo = rand.Next(1, 5);
 
+            //Dann je nach gewählter munition nocheinmal zufällige auswahl in begrenztem wertebereich je nach Projektil
             switch (botammo)
             {
                 case 0:
@@ -199,6 +218,8 @@ namespace SEW03_Projekt
             playerturn = false;
             lockplayerbuttons();
 
+
+            //je nachdem welche munition ausgewählt wird jetzt das Projektil abgefeuert
             switch (selectedAmmo)
             {
                 case 0:
@@ -223,9 +244,10 @@ namespace SEW03_Projekt
 
         private void Btn_ammo_Clicked(object sender, EventArgs e)
         {
+            //einer der 4 munitionsbuttons wurde gedrückt
             btn_fire.IsEnabled = true;
 
-
+            //wenn vorher schon ein button ausgewählt war wird sein aussehen zurückgesetzt
             if (pressedbutton != null)
             {
                 pressedbutton.BorderColor = standardbordercolor;
@@ -233,6 +255,7 @@ namespace SEW03_Projekt
 
             pressedbutton = (Button)sender;
 
+            //ermittlung welcher der buttons gedrückt wurde
             switch (pressedbutton.Text)
             {
                 case "Apple":
@@ -248,15 +271,17 @@ namespace SEW03_Projekt
                     selectedAmmo = 3;
                     break;
             }
+            //Färbung des Rahmens des gedrückten buttons gelb
             pressedbutton.BorderColor = Color.FromRgb(255, 255, 0);
         }
          
         private void projectileFired(Ammunition proj, Playerobject attackingplayer, Playerobject attackedplayer)
         {
             Ammunition amm = new Ammunition();
+            
             float t = 0;
 
-            // Erstellen des Rahmens
+            // Erstellen des Projektils als Rahmen
             Frame frame = new Frame
             {
                 WidthRequest = 10 * scale, // Kleinere Breite
@@ -272,7 +297,8 @@ namespace SEW03_Projekt
             };
 
 
-
+            //bewegunng des Projektils an Spielerposition und hinzufügen zum parent layout
+            //alles grafische muss im Mainthread passieren deswegen die komische methode
             MainThread.InvokeOnMainThreadAsync(() =>
             {
                 frame.TranslationX = attackingplayer.Playerpos.X;
@@ -284,7 +310,7 @@ namespace SEW03_Projekt
 
 
             // Timer erstellen
-            System.Timers.Timer timer = new System.Timers.Timer(20); // 100 Millisekunden = 0,1 Sekunden
+            System.Timers.Timer timer = new System.Timers.Timer(20); // 20 Millisekunden = 0,02 Sekunden
             timer.Elapsed += (sender, e) => OnTimedEvent(sender, e, proj, ref t, canvasView.Width, canvasView.Height, attackingplayer, attackedplayer, frame); //Event wird bei jedem Timertick ausgeführt
             timer.AutoReset = true; // Timer soll sich wiederholen
             timer.Enabled = true; // Timer starten
@@ -292,6 +318,7 @@ namespace SEW03_Projekt
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e, Ammunition proj, ref float t, double gwidth, double gheight, Playerobject attackingplayer, Playerobject attackedplayer, Frame frame)
         {
+            //skaliert die Power abhängig davon wie groß der Bildschirm ist
             float powerscale = 1.6f;
 
             if(scale < 1)
@@ -300,12 +327,14 @@ namespace SEW03_Projekt
             }
 
             
-
+            //berechnung der Flugbahn
             PointF pos = proj.projectilepath(t, Convert.ToInt32(attackingplayer.Power * powerscale), attackingplayer.Angle, windspeed, attackingplayer.Isshootingleft, (float)attackingplayer.Playerpos.X, (float)attackingplayer.Playerpos.Y * 0.9f, proj.weight);
 
+            //wenn das Projektil den Spieler trifft werden ihm dementsprechend leben abgezogen
             if (attackedplayer.Hitbox.Contains(pos))
             {
                 attackedplayer.Health -= proj.damage;
+                //wieder können ui dinge nur im Mainthread verändert werden
                 MainThread.InvokeOnMainThreadAsync(() =>
                 {
                     if (frame.Parent is Layout layout)
@@ -323,14 +352,18 @@ namespace SEW03_Projekt
                         viewModel.Player2Health = player2.Health;
                     }
                 });
+                //stoppt den timer
                 ((System.Timers.Timer)sender).Stop();
 
+                //markiert den Task aus dem gameloop als erledigt -> programm läuft weiter
                 projectilegone?.TrySetResult(true);
 
                 return;
             }
+            //wenn das projektil den Bildschirm nach unten links oder rechts verlässt
             else if (pos.X < 0 || pos.X > gwidth || pos.Y > gheight * 0.84f)
             {
+                //wieder können ui dinge nur im Mainthread verändert werden
                 MainThread.InvokeOnMainThreadAsync(() =>
                 {
                     if (frame.Parent is Layout layout)
@@ -338,8 +371,10 @@ namespace SEW03_Projekt
                         layout.Children.Remove(frame); // Frame aus dem Layout entfernen
                     }
                 });
+                //stoppt den Timer
                 ((System.Timers.Timer)sender).Stop();
 
+                //markiert den Task aus dem gameloop als erledigt -> programm läuft weiter
                 projectilegone?.TrySetResult(true);
 
                 return;
@@ -347,10 +382,12 @@ namespace SEW03_Projekt
 
             MainThread.InvokeOnMainThreadAsync(() =>
             {
+                //updatet das Projektil
                 frame.TranslationX = pos.X;
                 frame.TranslationY = pos.Y;
             });
 
+            //zeitpunkt wird leicht erhöht damit die flugbahn flüssig bleibt 
             t += 0.2f;
         }
 
@@ -361,7 +398,9 @@ namespace SEW03_Projekt
 
             switch (pressedbutton.Text)
             {
+
                 case "Power +":
+                    //wenn power kleiner als hundert ist dementsprechend erhöht 
                     if(player1.Power < 100)
                     {
                         if (valuestimesten) player1.Power += 10;
@@ -373,8 +412,8 @@ namespace SEW03_Projekt
                     viewModel.Power = player1.Power; // ViewModel aktualisieren
                     break;
                 case "Power -":
-                    
-                    if(player1.Power > 1)
+                    //wenn power größer als 1 ist dementsprechend verringert 
+                    if (player1.Power > 1)
                     {
                         if (valuestimesten) player1.Power -= 10;
                         else player1.Power--;
@@ -393,6 +432,7 @@ namespace SEW03_Projekt
 
             switch (pressedbutton.Text)
             {
+                //winkel erhöht oder verringert
                 case "Angle +":
                     if (valuestimesten) player1.Angle += 10;
                     else player1.Angle++;
@@ -406,10 +446,14 @@ namespace SEW03_Projekt
             }
         }
 
+        
         private void Btn_timesten_Clicked(object sender, EventArgs e)
         {
+            //invertiert den boolean -> wenn variable im dann true ist wird winkel und power *10 gemacht
             valuestimesten = !valuestimesten;
 
+
+            //gelber rand
             if (valuestimesten)
             {
                 Btn_timesten.BorderColor = Color.FromRgb(255, 255, 0);
@@ -421,6 +465,7 @@ namespace SEW03_Projekt
 
         }
 
+        //generiert random zahl zwischen -5 und 5 für wind
         public float randomizewind()
         {
             float wind;
@@ -431,9 +476,10 @@ namespace SEW03_Projekt
             return wind;
         }
 
+        //Wenn Bildschirmgröße verändert wird die ganze Skalierung aktualisiert
         private void OnCanvasViewSizeChanged(object sender, EventArgs e)
         {
-            
+            //wenn canvasview existiert aber null ist wird abgebrochen
             if (canvasView?.Width == null || canvasView?.Height == null) return;
 
             // Skalierungsfaktor berechnen
@@ -459,12 +505,14 @@ namespace SEW03_Projekt
             canvasView.Invalidate();
         }
 
+        //aktualisiert das den Windspeed und das Viewmodel dazu
         public void UpdateWindSpeed(float newWindSpeed)
         {
             windspeed = newWindSpeed;
             viewModel.Wind = windspeed; // ViewModel aktualisieren
         }
 
+        //sperrt alle buttons für den spieler
         public void lockplayerbuttons()
         {
 
@@ -489,6 +537,7 @@ namespace SEW03_Projekt
 
         }
 
+        //entsperrt alle buttons für den Spieler
         public void unlockplayerbuttons()
         {
             MainThread.InvokeOnMainThreadAsync(() =>
@@ -510,17 +559,21 @@ namespace SEW03_Projekt
             });
         }
 
+        //button zum speichern
         private void btn_save_Clicked(object sender, EventArgs e)
         {
             SaveGameToCsv();
         }
 
+        //speichert das Spiel in eine CSV
         private void SaveGameToCsv()
         {
+            //Pfad abhängig von Betriebssystem
             string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "savegame.csv");
 
             try
             {
+                //schreibt zuerst die Spaltenüberschriften und dann die Werte in die 2. zeile
                 using (StreamWriter writer = new StreamWriter(filePath, false))
                 {
                     writer.WriteLine("Player1Health,Player2Health,Player1Power,Player1Angle");
@@ -535,12 +588,17 @@ namespace SEW03_Projekt
             {
                 DisplayAlert("Fehler", $"Speichern fehlgeschlagen: {ex.Message}", "OK");
             }
+
+            //gibt feedback über popups
         }
 
+        //lädt das Spiel von einer CSV
         private void LoadGameFromCsv()
         {
+            //wieder os abhängiger Pfad
             string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "savegame.csv");
 
+            //Wenn keine Datei gefunden nur Warnung und abbruch
             if (!File.Exists(filePath))
             {
                 DisplayAlert("Warnung", "Kein Spielstand gefunden", "OK");
@@ -550,7 +608,7 @@ namespace SEW03_Projekt
             try
             {
                 string[] lines = File.ReadAllLines(filePath);
-
+                //wenn es mehr als 2 zeilen gibt wird abgebrochen
                 if (lines.Length < 2)
                 {
                     DisplayAlert("Fehler", "Ungültiges Dateiformat", "OK");
@@ -558,7 +616,7 @@ namespace SEW03_Projekt
                 }
 
                 string[] values = lines[1].Split(',');
-
+                //wenn es gelingt alle werte in ints zu konvertieren werden die Werte eingesetzt
                 if (values.Length == 4 &&
                     int.TryParse(values[0], NumberStyles.Any, CultureInfo.InvariantCulture, out int p1Health) &&
                     int.TryParse(values[1], NumberStyles.Any, CultureInfo.InvariantCulture, out int p2Health) &&
