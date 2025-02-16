@@ -96,15 +96,15 @@ namespace SEW03_Projekt
 
         public async void Gameloop()
         {
-            if (player1.Health <= 0 || player2.Health <= 0)
-            {
-                lockplayerbuttons();
-                reset();
-                    
-            }
+
             while (true)
             {
+                if (player1.Health <= 0 || player2.Health <= 0)
+                {
+                    lockplayerbuttons();
+                    reset();
 
+                }
 
                 playerturn = true;
 
@@ -124,20 +124,23 @@ namespace SEW03_Projekt
                     break;
                 }
 
-                
+
 
                 if (!playerturn)
                 {
                     await Task.Delay(2000);
                     botturn();
-                }
 
-                if (player1.Health <= 0 || player2.Health <= 0)
-                {
-                    lockplayerbuttons();
-                    reset();
-                    break;
+                    if (player1.Health <= 0 || player2.Health <= 0)
+                    {
+                        lockplayerbuttons();
+                        reset();
+                        break;
+                    }
                 }
+                
+
+
 
                 UpdateWindSpeed(randomizewind());
                 unlockplayerbuttons();
@@ -163,38 +166,37 @@ namespace SEW03_Projekt
         public void botturn()
         {
             
-
             int botammo = rand.Next(1, 5);
-
-            player2.Power = rand.Next(65, 101);
-            player2.Angle = rand.Next(45, 75);
-
-
 
             switch (botammo)
             {
                 case 0:
+                    player2.Power = rand.Next(60, 90);
+                    player2.Angle = rand.Next(25, 45);
                     projectileFired(new Apple(), player2, player1);
                     break;
                 case 1:
+                    player2.Power = rand.Next(85, 101);
+                    player2.Angle = rand.Next(35, 55);
                     projectileFired(new Melon(), player2, player1);
                     break;
                 case 2:
+                    player2.Power = rand.Next(85, 101);
+                    player2.Angle = rand.Next(35, 55);
                     projectileFired(new Wrench(), player2, player1);
                     break;
                 case 3:
+                    player2.Power = rand.Next(60, 90);
+                    player2.Angle = rand.Next(25, 45);
                     projectileFired(new Dung(), player2, player1);
                     break;
             }
-
-
-            
-            
         }
 
 
         private void FIRE_BTN_clicked(object sender, EventArgs e)
         {
+            playerturn = false;
             lockplayerbuttons();
 
             switch (selectedAmmo)
@@ -213,7 +215,7 @@ namespace SEW03_Projekt
                     break;
             }
 
-            playerturn = false;
+
 
             // Signalisiere, dass der Fire-Button gedrückt wurde
             fireButtonPressedTcs?.TrySetResult(true);
@@ -290,12 +292,13 @@ namespace SEW03_Projekt
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e, Ammunition proj, ref float t, double gwidth, double gheight, Playerobject attackingplayer, Playerobject attackedplayer, Frame frame)
         {
-            float powerscale = 1;
+            float powerscale = 1.6f;
 
             if(scale < 1)
             {
                 powerscale = scale * 1.77f;
             }
+
             
 
             PointF pos = proj.projectilepath(t, Convert.ToInt32(attackingplayer.Power * powerscale), attackingplayer.Angle, windspeed, attackingplayer.Isshootingleft, (float)attackingplayer.Playerpos.X, (float)attackingplayer.Playerpos.Y * 0.9f, proj.weight);
