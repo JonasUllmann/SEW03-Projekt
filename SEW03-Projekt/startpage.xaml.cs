@@ -48,7 +48,7 @@ namespace SEW03_Projekt
 
             mainpage = new MainPage(player1, player2, false);
             Navigation.PushAsync(mainpage);
-            
+                                        
         }
 
         //Button um ein altes Spiel via CSV zu laden

@@ -169,6 +169,9 @@ namespace SEW03_Projekt
             player1.Health = player1.Maxhealth;
             player2.Health = player2.Maxhealth;
 
+            viewModel.Player1Health = player1.Health;
+            viewModel.Player2Health = player2.Health;
+
             btn_fire.IsEnabled = false;
 
             unlockplayerbuttons();
